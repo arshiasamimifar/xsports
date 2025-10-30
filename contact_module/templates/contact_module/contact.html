@@ -1,0 +1,120 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}تماس با ما{% endblock %}
+{% block banner_title %}تماس با من{% endblock %}
+{% block banner_body %}لطفاً فرم زیر را پر کنید.{% endblock %}
+
+{% block content %}
+    <!-- GT Contact-us Section Start -->
+    <section class="gt-contact-us-section section-padding fix rtl">
+        <div class="container">
+            <div class="gt-contact-us-wrapper">
+                <div class="row g-4">
+                    <div class="col-lg-8">
+                        <div class="gt-comment-form-wrap">
+                            <h4>ما اینجاییم تا کمک کنیم!</h4>
+                            <p>تلفن همراه شما منتشر نخواهد شد. تمامی فیلد ها الزامی میباشد.</p>
+                            <form action="{% url 'contact' %}" id="contact-form" method="POST" novalidate> {% csrf_token %}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-success">
+                                            {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if contact_form.full_name.errors or contact_form.phone.errors %}
+                                    <div class="alert alert-danger">
+                                        {{ contact_form.full_name.errors }}
+                                    </div>
+                                    <div class="alert alert-danger">
+                                        {{ contact_form.phone.errors }}
+                                    </div>
+                                {% endif %}
+                                <div class="row g-4">
+                                    <div class="col-lg-6">
+                                        <div class="form-clt">
+                                            <span>{{ contact_form.full_name.label_tag }}</span>
+                                            {{ contact_form.full_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-clt">
+                                            <span>{{ contact_form.phone.label_tag }}</span>
+                                            {{ contact_form.phone }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-clt">
+                                            <span>{{ contact_form.message.label_tag }}</span>
+                                            {{ contact_form.message }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="gt-theme-btn">
+                                            ارسال نظر
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="gt-contact-bg bg-cover" style="background-image: url({% static 'shared/img/inner-page/match-details/bg.jpg' %});">
+                            <div class="gt-contact-content">
+                                <h3>نیاز به کمک دارید؟</h3>
+                                <p>نیاز به کمک دارید؟ با ما تماس بگیرید – پشتیبانی کامل ۲۴ ساعته، ۷ روز هفته</p>
+                                <div class="gt-contact-item">
+                                    <div class="gt-icon">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <ul class="gt-list">
+                                        <li><span>تماس با ما:</span></li>
+                                        <li><a href="tel:+989374641310">09374641310</a></li>
+                                    </ul>
+                                </div>
+                                <div class="gt-contact-item">
+                                    <div class="gt-icon">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </div>
+                                    <ul class="gt-list">
+                                        <li><span>ایمیل ما</span></li>
+                                        <li><a href="mailto:arshia21420@gmail.com">
+                                            arshia21420@gmail.com
+                                        </a></li>
+                                    </ul>
+                                </div>
+                                <div class="gt-contact-item mb-0">
+                                    <div class="gt-icon">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <ul class="gt-list">
+                                        <li><span>لوکیشن:</span></li>
+                                        <li><a href="https://maps.app.goo.gl/wL56S6YT7mJQfGdN9">ایران تهران سلسبیل</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gt-bg-image">
+                            <img src="{% static 'shared/img/inner-page/contact-bg.jpg' %}" alt="img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GT Map Section Start -->
+    <div class="gt-map-section section-padding fix pt-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="gt-map-items">
+                        <div class="googpemap">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4582.998036589157!2d51.37600610404647!3d35.685151643573214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e00f7c2d3f79b%3A0xddd4f7fecfb9e196!2z2LHYp9iv24zZiNmE2YjamNuMINmI2LPZiNmG2Yjar9ix2KfZgduMINix2YjYr9qp24wgKNii2LLZhdmI2K_Zhyk!5e0!3m2!1sen!2sse!4v1758174461979!5m2!1sen!2sse" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load render_partial %}
+{% block title %}وبلاگ{% endblock %}
+{% block banner_title %}بخش وبلاگ{% endblock %}
+{% block banner_body %}آخرین مطالب و نوشته‌های سایت{% endblock %}
+{% block search_icon %}
+    <a href="#" class="main-header__search search-toggler">
+        <i class="fa-regular fa-magnifying-glass"></i>
+    </a>
+{% endblock %}
+{% block searchbar %}
+    <!-- GT Search Start -->
+    <div class="search-popup">
+        <div class="search-popup__overlay search-toggler"></div>
+        <div class="search-popup__content rtl">
+            <form role="search" method="get" class="search-popup__form" action="{% url 'article_searchbar' %}">
+                <input type="text" id="search" name="q" placeholder="اینجا جستجو کنید...">
+                <button type="submit" aria-label="search submit" class="search-btn">
+                    <span><i class="fa-regular fa-magnifying-glass"></i></span>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <!-- GT News-standard Section Start -->
+    <section class="news-standard-section section-padding rtl">
+        <div class="container">
+            <div class="gt-news-standard-wrapper">
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
+                        {% if articles %}
+                            <div class="gt-news-standard-items">
+                                {% for article in articles %}
+                                    <div class="gt-news-card-items-5">
+                                        {% thumbnail article.image "856x402" crop="center" as im %}
+                                            <div class="gt-news-image">
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            </div>
+                                        {% endthumbnail %}
+                                        <div class="gt-news-content">
+                                            <ul class="gt-date-list">
+                                                <li>
+                                                    <i class="fa fa-user"></i>
+                                                    نویسنده :
+                                                    <a href="{% url 'article_by_author' username=article.author.username %}">
+                                                        {% if article.author.get_full_name %}
+                                                            {{ article.author.get_full_name }}
+                                                        {% else %}
+                                                            {{ article.author }}
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                    {{ article.created_at }}
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-comments"></i>
+                                                    {{ article.comments.published.count }} نظر
+                                                </li>
+                                            </ul>
+                                            <h3>
+                                                <a href="{% url 'article_detail' slug=article.slug %}">
+                                                    {{ article.title }}
+                                                </a>
+                                            </h3>
+                                            <p>
+                                                {{ article.body | truncatewords:75 }}
+                                            </p>
+                                            <a href="{% url 'article_detail' slug=article.slug %}" class="gt-theme-btn">
+                                                بیشتر بخوانید
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                {% if is_paginated %}
+                                    <div class="gt-page-nav-wrap pt-5 text-start">
+                                        <ul class="justify-content-start">
+                                            {% if page_obj.has_previous %}
+                                                <li><a class="gt-page-numbers"
+                                                       href="?page={{ page_obj.previous_page_number }}"><i
+                                                        class="fa-solid fa-chevron-right"></i></a></li>
+                                            {% endif %}
+                                            {% for page_number in paginator.page_range %}
+                                                <li>
+                                                    <a class="gt-page-numbers {% if page_obj.number == page_number %}active{% endif %}"
+                                                       href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                            {% endfor %}
+                                            {% if page_obj.has_next %}
+                                                <li>
+                                                <a class="gt-page-numbers" href="?page={{ page_obj.next_page_number }}"><i
+                                                        class="fa-solid fa-chevron-left"></i></a>
+                                            {% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">هیچ مقاله ای یافت نشد.</div>
+                        {% endif %}
+                    </div>
+                    {# category #}
+                    {% render_partial 'blog_module.views.article_sidebar' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

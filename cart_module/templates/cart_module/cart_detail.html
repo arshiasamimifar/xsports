@@ -1,0 +1,94 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% load thumbnail %}
+{% block title %}سبد خرید{% endblock %}
+{% block banner_body %}
+    سبد خرید
+{% endblock %}
+{% block banner_title %}
+    لیست محصولاتی که به سبد خرید خود اضافه کرده‌اید را در این بخش مشاهده می‌کنید.
+{% endblock %}
+{% block content %}
+    <!-- GT Shop Cart Section Start -->
+    <div class="cart-section fix section-padding pb-0 rtl">
+        <div class="container">
+            <div class="cart-list-area">
+                <div class="table-responsive">
+                    <table class="table common-table">
+                        <thead data-aos="fade-down">
+                        <tr>
+                            <th class="text-center">تصویر</th>
+                            <th class="text-center">محصول</th>
+                            <th class="text-center">قیمت واحد</th>
+                            <th class="text-center">مقدار</th>
+                            <th class="text-center">جمع کل</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in cart.items.all %}
+                            <tr>
+                                <td class="text-center">
+                                    {% thumbnail item.product.image '100x100' as im %}
+                                        <img src="{{ im.url }}" alt="">
+                                    {% endthumbnail %}</td>
+                                <td>
+                                    {{ item.product.title | truncatechars:80 }}
+                                    <form action="{% url 'delete_from_cart' item.pk %}" method="post"
+                                          style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+                                    </form>
+                                </td>
+                                <td class="text-center">{{ item.product.price|intcomma }} ریال</td>
+                                <td class="text-center">
+                                    <form action="{% url 'update_quantity' item.pk %}" method="post"
+                                          style="display:inline-flex;">
+                                        {% csrf_token %}
+                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1"
+                                               class="form-control" style="width:70px;">
+                                        <button type="submit" class="btn btn-primary btn-sm">بروزرسانی</button>
+                                    </form>
+                                </td>
+                                <td class="text-center">{{ item.total_price|intcomma }} ریال</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">سبد خرید شما خالی است.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Total section end -->
+    <div class="cart-total-area pt-5 section-padding rtl">
+        <div class="container">
+            <div class="cart-total-items">
+                <h3>جمع کلی</h3>
+                <ul>
+                    <li>
+                        جمع محصولات <span class="subtotal">{{ cart.total_price |intcomma }} ریال</span>
+                    </li>
+                    <li>
+                        12 درصد ارزش افزوده <span class="subtotal">{{ cart.tax_price |intcomma }} ریال</span>
+                    </li>
+                    <li>
+                        مبلغ قابل پرداخت <span>{{ cart.total_price_with_tax|intcomma }} ریال</span>
+                    </li>
+                </ul>
+                <a href="{% url 'checkout' %}" class="gt-theme-btn">
+                    ادامه پرداخت
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

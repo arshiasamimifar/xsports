@@ -1,0 +1,216 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load custom_filters %}
+{% block title %}فروشگاه | {{ product.title }}{% endblock %}
+{% block banner_title %}بهترین محصولات ما را ببینید !{% endblock %}
+{% block banner_body %}برترین محصولات از همه دسته‌بندی‌ها{% endblock %}
+{% block content %}
+    <section class="gt-shop-details-section section-padding fix rtl">
+        <div class="container">
+            <div class="shop-details-wrapper">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="gt-shop-details-left-item">
+                            <div class="tab-content">
+                                <div id="thumb2" class="tab-pane fade show active">
+                                    <div class="shop-thumb">
+                                        {% thumbnail product.image '480x480' crop="center" as im %}
+                                            <img src="{{ im.url }}" alt="img">
+                                        {% endthumbnail %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="gt-shop-details-content">
+                            <h4>
+                                {{ product.title }}
+                            </h4>
+                            <hr>
+                            {% if product.key_features.all %}
+                                <div class="gt-list-item">
+                                    <h6>ویژگی‌های کلیدی</h6>
+                                    <ul class="gt-list">
+                                        <li>
+                                            {% for feature in product.key_features.all %}
+                                                {% if feature %}
+                                                    {{ feature.title }} <br>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            <div class="gt-price-item">
+                                <h6>
+                                    قیمت عادی <span>: {{ product.price | intcomma }} ریال</span>
+                                </h6>
+                                {% if product.discount != 0 %}
+                                    <h6 class="gt-bg">
+                                        قیمت تخفیف خورده <span class="gt-color">???????</span>
+                                    </h6>
+                                {% endif %}
+                                <h6>
+                                    کد محصول : {{ product.id }}
+                                </h6>
+                            </div>
+                            <h6 class="gt-text">
+                                وضعیت <span>: {% if product.stock != 0 %}
+                                <span class="text-success">موجود در انبار</span>{% else %}
+                                <span class="text-danger">اتمام موجودی</span>{% endif %}</span>
+                            </h6>
+                            <div class="gt-color-list">
+                                <h6>
+                                    رنگ بنده ها:
+                                </h6>
+                                {% for color in product.color.all %}
+                                    {{ color }} ،
+                                {% endfor %}
+                            </div>
+                            <div class="gt-button-wrapper">
+                                <form action="{% url 'add_to_cart' product.id %}" method="post"> {% csrf_token %}
+                                    <button type="submit" class="gt-theme-btn">
+                                        افزودن به سبدخرید
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="gt-shop-tab-area">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a href="#Description" data-bs-toggle="tab" class="nav-link active">
+                                توضیحات
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#Additional" data-bs-toggle="tab" class="nav-link">
+                                اطلاعات اضافی
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#Reviews" data-bs-toggle="tab" class="nav-link">
+                                نظرات مشتریان
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="Description" class="tab-pane fade show active">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <div class="gt-description-content">
+                                        <h5>درباره محصول</h5>
+                                        <p>
+                                            {{ product.body | linebreaks }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="gt-thumb mt-4">
+                                        {% thumbnail product.image '690x500' as im %}
+                                            <img src="{{ im.url }}" alt="img">
+                                        {% endthumbnail %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Additional" class="tab-pane fade">
+                            <div class="gt-information-list-item">
+                                <h5>اطلاعات اضافی</h5>
+                                <div class="gt-inform-item">
+                                    {% if product.ProductAdditionalInformations.all %}
+                                        {% for info in product.ProductAdditionalInformations.all %}
+                                            <div class="gt-inform-text">
+                                                <span>{{ info.title }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="gt-inform-text">
+                                            <span>هیچ اطلاعاتی ثبت نشده است.</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {# comments section #}
+                        <div id="Reviews" class="tab-pane fade">
+                            <div class="th-coustumer-riview">
+                                {# comments form #}
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-success">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% for error in comment_form.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+
+                                <div class="gt-comment-form-wrap mt-5">
+                                    <h4>یک بررسی اضافه کنید</h4>
+                                    <p>جزئیات خاصی درباره این محصول از مشتریانی که آن را دارند بگیرید.</p>
+                                    {% if request.user.is_authenticated %}
+                                        <form action="#" id="contact-form" method="POST" novalidate> {% csrf_token %}
+                                            <div class="row g-4">
+                                                <div class="col-lg-12">
+                                                    <div class="form-clt">
+                                                        {{ comment_form }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <button type="submit" class="gt-theme-btn">
+                                                        <span class="gt-text-btn">ارسال کامنت ها</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="alert alert-success">
+                                            برای ارسال کامنت باید <a href="{% url 'login' %}"
+                                                                     class="text-danger">وارد</a>
+                                            حساب خود شوید!
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {# comments #}
+                                <hr>
+                                <h5>نظرات ({{ product.comments.published.count }})</h5>
+                                {% if product.comments.published %}
+                                    {% for comment in product.comments.published %}
+                                        <div class="th-review-item gt-style-2">
+                                            <div class="th-client-info">
+                                                <div class="th-client-image">
+                                                    {% if comment.author.image %}
+                                                        {% thumbnail comment.author.image '50x50' crop="center" as im %}
+                                                            <img src="{{ im.url }}" alt="img">
+                                                        {% endthumbnail %}
+                                                    {% else %}
+                                                        <img src="{% static 'shared/img/unknown-user.png' %}" alt="img"
+                                                             style="width: 50px" height="50px">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="th-info-text">
+                                                    <h6>توسط<span>: {% if comment.author.get_full_name %}
+                                                        {{ comment.author.get_full_name }}{% else %}
+                                                        {{ comment.author.username }}{% endif %} </span></h6>
+                                                    <span>{{ comment.created_at }}</span>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2">
+                                                {{ comment.body | linebreaks }}
+                                            </p>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="alert alert-warning">هنوز هیچ کامنتی برای این محصول منتشر نشده.</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

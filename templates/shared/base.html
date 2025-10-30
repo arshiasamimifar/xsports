@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<!--<< Header Area >>-->
+
+<!-- Mirrored from ex-coders.com/html/xports/# by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 25 May 2025 06:46:17 GMT -->
+<head>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Gramentheme">
+    <meta name="description" content="Xriders - Riders & Sports Club HTML Template">
+    <!-- ======== Page title ============ -->
+    <title>{% block title %}title ???{% endblock %}</title>
+    <!-- ======== includes ============ -->
+    {% include 'shared/includes/header_references.html' %}
+</head>
+<body>
+<!-- Preloader Start -->
+<div id="preloader" class="preloader">
+    <div class="animation-preloader">
+        <div class="spinner">
+        </div>
+        <div class="txt-loading">
+                    <span data-text-preloader="X" class="letters-loading">
+                        X
+                    </span>
+            <span data-text-preloader="P" class="letters-loading">
+                        P
+                    </span>
+            <span data-text-preloader="O" class="letters-loading">
+                        O
+                    </span>
+            <span data-text-preloader="R" class="letters-loading">
+                        R
+                    </span>
+            <span data-text-preloader="T" class="letters-loading">
+                        T
+                    </span>
+            <span data-text-preloader="S" class="letters-loading">
+                        S
+                    </span>
+        </div>
+        <p class="text-center">در حال بارگذاری</p>
+    </div>
+    <div class="loader">
+        <div class="row">
+            <div class="col-3 loader-section section-left">
+                <div class="bg"></div>
+            </div>
+            <div class="col-3 loader-section section-left">
+                <div class="bg"></div>
+            </div>
+            <div class="col-3 loader-section section-right">
+                <div class="bg"></div>
+            </div>
+            <div class="col-3 loader-section section-right">
+                <div class="bg"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GT Back To Top Start -->
+<button id="gt-back-top" class="gt-back-to-top show">
+    <i class="fa-regular fa-arrow-up"></i>
+</button>
+
+{#<!-- GT MouseCursor Start -->#}
+{#<div class="mouseCursor cursor-outer"></div>#}
+{#<div class="mouseCursor cursor-inner"></div>#}
+
+<!-- Offcanvas Area Start -->
+<div class="fix-area rtl">
+    <div class="offcanvas__info">
+        <div class="offcanvas__wrapper">
+            <div class="offcanvas__content">
+                <div class="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
+                    <div class="offcanvas__logo">
+                        <a href="{% url 'home' %}">
+                            <img src="{% static 'shared/img/logo/black-logo.svg' %}" alt="logo-img">
+                        </a>
+                    </div>
+                    <div class="offcanvas__close">
+                        <button>
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text d-none d-xl-block">
+                    ارشیا صمیمی‌فر، برنامه‌نویس سمت سرور با تمرکز بر توسعه‌ی بک‌اند و طراحی سیستم‌های پایدار و
+                    مقیاس‌پذیر.
+                </p>
+                <div class="mobile-menu fix mb-3"></div>
+                <div class="offcanvas__contact">
+                    <h4>اطلاعات تماس</h4>
+                    <ul>
+                        <li class="d-flex align-items-center">
+                            <div class="offcanvas__contact-icon">
+                                <i class="fal fa-map-marker-alt"></i>
+                            </div>
+                            <div class="offcanvas__contact-text">
+                                <a target="_blank" href="https://maps.app.goo.gl/wL56S6YT7mJQfGdN9">ایران تهران
+                                    سلسبیل</a>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="offcanvas__contact-icon mr-15">
+                                <i class="fal fa-envelope"></i>
+                            </div>
+                            <div class="offcanvas__contact-text">
+                                <a href="mailto:test@gmail.com"><span
+                                        class="arshia21420@gmail.com">arshia21420@gmail.com</span></a>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <div class="offcanvas__contact-icon mr-15">
+                                <i class="far fa-phone"></i>
+                            </div>
+                            <div class="offcanvas__contact-text">
+                                <a href="tel:+989374641310">09374641310</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="social-icon d-flex align-items-center">
+                        <a href="https://www.instagram.com/arshia219675/" target="_blank" rel="noopener noreferrer"><i
+                                class="fa-brands fa-instagram"></i></a>
+                        <a href="https://web.telegram.org/k/#@arshia21420" target="_blank"><i
+                                class="fa-brands fa-telegram"></i></a>
+                        <a href="https://wa.me/989374641310" target="_blank" rel="noopener noreferrer"><i
+                                class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas__overlay"></div>
+
+<!-- Header Section Start -->
+<header id="header-sticky" class="header-1">
+    <div class="container-fluid rtl">
+        <div class="mega-menu-wrapper">
+            <div class="header-main">
+                <div class="header-left">
+                    <div class="logo">
+                        <a href="{% url 'home' %}" class="header-logo">
+                            <img src="{% static 'shared/img/logo/white-logo.svg' %}" alt="logo-img">
+                        </a>
+                    </div>
+                    <div class="mean__menu-wrapper">
+                        <div class="main-menu">
+                            <nav id="mobile-menu">
+                                <ul>
+                                    <li class="has-dropdown active menu-thumb">
+                                        <a href="{% url 'home' %}">خانه</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'article_list' %}">
+                                            وبلاگ
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'product_list' %}">
+                                            فروشگاه
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'contact' %}">تماس با ما</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right d-flex justify-content-end align-items-center">
+                    <div class="header-right-icon">
+                        {% block search_icon %}
+
+                        {% endblock %}
+                        <a href="{% url 'cart' %}">
+                            <i class="far fa-shopping-cart"></i>
+                        </a>
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'profile' %}">
+                                <i class="far fa-user"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}">
+                                <i class="far fa-sign-in"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="header__hamburger d-xl-block my-auto">
+                        <div class="sidebar__toggle">
+                            <i class="fas fa-bars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{% block searchbar %}
+	
+{% endblock %}
+<!-- GT Banner Start -->
+<section class="hero-section hero-1 fix bg-cover rtl"
+         style="background-image: url({% static 'shared/img/home-1/hero/hero-bg.jpg' %});">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="hero-image wow animated-image">
+                    <img src="{% static 'shared/img/home-1/hero/hammer.png' %}" alt="img">
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="hero-content">
+                    <h6 class="wow animated-image">{% block banner_title %}وب سابت رسمی ارشیا صمیمی
+                        فر{% endblock %}</h6>
+                    <h1 class="wow animated-image">
+                        {% block banner_body %}برنامه نویس پایتون{% endblock %}
+                    </h1>
+                    <div class="gt-hero-button wow animated-image">
+                        <a href="{% url 'product_list' %}" class="gt-theme-btn">فروشگاه</a>
+                        <a href="{% url 'article_list' %}" class="gt-theme-btn-blue">وبلاگ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block content %}
+
+{% endblock %}
+<!--<< All JS Plugins >>-->
+{% include 'shared/includes/site_footer_components.html' %}
+{% include 'shared/includes/footer_references.html' %}
+</body>
+<!-- Mirrored from ex-coders.com/html/xports/# by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 25 May 2025 06:47:07 GMT -->
+</html>

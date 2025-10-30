@@ -1,0 +1,91 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load render_partial %}
+{% load custom_filters %}
+{% load thumbnail %}
+{% block title %}فروشگاه{% endblock %}
+{% block banner_title %}بهترین محصولات ما را ببینید !{% endblock %}
+{% block banner_body %}برترین محصولات از همه دسته‌بندی‌ها{% endblock %}
+{% block search_icon %}
+    <a href="#" class="main-header__search search-toggler">
+        <i class="fa-regular fa-magnifying-glass"></i>
+    </a>
+{% endblock %}
+{% block searchbar %}
+    <!-- GT Search Start -->
+    <div class="search-popup">
+        <div class="search-popup__overlay search-toggler"></div>
+        <div class="search-popup__content rtl">
+            <form role="search" method="get" class="search-popup__form" action="{% url 'product_searchbar' %}">
+                <input type="text" id="search" name="q" placeholder="اینجا جستجو کنید...">
+                <button type="submit" aria-label="search submit" class="search-btn">
+                    <span><i class="fa-regular fa-magnifying-glass"></i></span>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <!-- GT Shop Section Start -->
+    <section class="gt-shop-section section-padding fix">
+        <div class="container rtl">
+            <div class="row">
+                <!-- محصولات (راست) -->
+                <div class="col-lg-8 col-12">
+                    <div class="row g-4">
+                        {% if products %}
+                            {% for product in products %}
+                                <div class="col-xl-3 col-lg-6 col-md-6">
+                                    <div class="gt-shop-card-item gt-style-2 mt-0">
+                                        {#<span>25 درصد تخفیف</span>#}
+                                        <div class="gt-shop-image">
+                                            {% thumbnail product.image "230x175" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                                            {% endthumbnail %}
+                                        </div>
+                                        <div class="gt-shop-content">
+                                            <h4>
+                                                <a href="{% url 'product_detail' product.slug %}">{{ product.title | truncatechars:20 }}</a>
+                                            </h4>
+                                            <p>قیمت: {{ product.price|intcomma }}</p>
+                                            <p>ريال</p>
+                                            <a href="{% url 'product_detail' product.slug %}"
+                                               class="gt-theme-little-btn mt-3">
+                                                مشاهده محصول
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-warning">هیچ محصولی یافت نشد.</div>
+                        {% endif %}
+                    </div>
+                    <!-- صفحه‌بندی -->
+                    {% if is_paginated %}
+                        <div class="gt-page-nav-wrap pt-5 text-center">
+                            <ul>
+                                {% if page_obj.has_previous %}
+                                    <li><a class="gt-page-numbers" href="?page={{ page_obj.previous_page_number }}"><i
+                                            class="fa-solid fa-chevron-right"></i></a></li>
+                                {% endif %}
+                                {% for page_number in paginator.page_range %}
+                                    <li>
+                                        <a class="gt-page-numbers {% if page_obj.number == page_number %}active{% endif %}"
+                                           href="?page={{ page_number }}">{{ page_number }}</a></li>
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li><a class="gt-page-numbers" href="?page={{ page_obj.next_page_number }}"><i
+                                            class="fa-solid fa-chevron-left"></i></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- سایدبار (چپ) -->
+                {% render_partial 'shop_module.views.product_sidebar' %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

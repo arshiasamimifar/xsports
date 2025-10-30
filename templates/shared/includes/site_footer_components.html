@@ -1,0 +1,89 @@
+{% load static %}
+<footer class="gt-footer-section section-bg">
+    <div class="container">
+        <div class="gt-footer-widget-wrapper rtl">
+            <div class="row justify-content-between">
+                <div class="col-xl-4 col-lg-6 col-md-12 wow fadeInUp rtl" data-wow-delay=".2s">
+                    <div class="gt-footer-widget-items rtl">
+                        <div class="gt-widget-head">
+                            <a href="{% url 'home' %}" class="gt-footer-logo">
+                                <img src="{% static 'shared/img/logo/white-logo.svg' %}" alt="img">
+                            </a>
+                        </div>
+                        <div class="gt-footer-content">
+                            <p>
+                                در تماس باشید و صفحات اجتماعی من را دنبال کنید تا از آخرین اخبار و فعالیت‌ها مطلع شوید.
+                            </p>
+                            <div class="gt-social-icon d-flex align-items-center">
+                                <a href="https://www.instagram.com/arshia219675/" target="_blank"
+                                   rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://web.telegram.org/k/#@arshia21420" target="_blank"><i
+                                        class="fa-brands fa-telegram"></i></a>
+                                <a href="https://wa.me/989374641310" target="_blank" rel="noopener noreferrer"><i
+                                        class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 wow fadeInUp rtl" data-wow-delay=".4s">
+                    <div class="gt-footer-widget-items rtl">
+                        <div class="gt-widget-head">
+                            <h5>وبسایت ما</h5>
+                        </div>
+                        <ul class="gt-list-area">
+                            <li>
+                                <a href="{% url 'home' %}">
+                                    خانه
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://jobvision.ir/cv/41769812-111001" target="_blank">
+                                    رزومه من
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'article_list' %}">
+                                    وبلاگ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'contact' %}">
+                                    تماس با ما
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'register' %}">
+                                    ثبت نام
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-2 ps-lg-3 col-lg-3 col-md-6 col-sm-6 wow fadeInUp" data-wow-delay=".6s">
+                    <div class="gt-footer-widget-items rtl">
+                        <div class="gt-widget-head">
+                            <h5>صفحات کاربردی</h5>
+                        </div>
+                        <ul class="gt-list-area">
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    ورود به حساب کاربری
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'register' %}">
+                                    ثبت نام
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'profile' %}">
+                                    پروفایل کاربری
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

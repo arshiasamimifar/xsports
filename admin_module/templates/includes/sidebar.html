@@ -1,0 +1,63 @@
+{% load static %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                {% if request.user.image %}
+                	<img src="{{ request.user.image.url }}" class="img-circle elevation-2" alt="User Image">
+                {% else %}
+                    <img src="{% static 'shared/img/unknown-user.png' %}" class="img-circle elevation-2" alt="User Image">
+                {% endif %}
+            </div>
+            <div class="info">
+                <a href="{% url 'profile' %}" class="d-block">
+                    {% if request.user.get_full_name %}
+                    	{{ request.user.get_full_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link {% if request.path == '/dashboard/profile/' or request.path == '/dashboard/change-password/' %}active{% endif %}">
+                        <i class="nav-icon fa fa-user"></i>
+                        <p>
+                            پروفایل
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'profile' %}" class="nav-link {% if request.path == '/dashboard/profile/' %}active{% endif %}">
+                                <i class="nav-icon fa fa-user"></i>
+                                <p>اطلاعات کاربری</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'change_password' %}" class="nav-link {% if request.path == '/dashboard/change-password/' %}active{% endif %}">
+                                <i class="nav-icon fa fa-key"></i>
+                                <p>تغییر کلمه عبور</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}" class="nav-link bg-danger">
+                                <i class="nav-icon fa fa-sign-out"></i>
+                                <p>خروج</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

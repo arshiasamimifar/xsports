@@ -1,0 +1,158 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load render_partial %}
+{% block title %} {{ article.title }} {% endblock %}
+{% block search_icon %}
+    <a href="#" class="main-header__search search-toggler">
+        <i class="fa-regular fa-magnifying-glass"></i>
+    </a>
+{% endblock %}
+{% block searchbar %}
+    <!-- GT Search Start -->
+    <div class="search-popup">
+        <div class="search-popup__overlay search-toggler"></div>
+        <div class="search-popup__content rtl">
+            <form role="search" method="get" class="search-popup__form" action="{% url 'article_searchbar' %}">
+                <input type="text" id="search" name="q" placeholder="اینجا جستجو کنید...">
+                <button type="submit" aria-label="search submit" class="search-btn">
+                    <span><i class="fa-regular fa-magnifying-glass"></i></span>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <!-- GT News-details Section Start -->
+    <section class="news-details-section section-padding">
+        <div class="container">
+            <div class="gt-news-details-wrapper">
+                <div class="row g-4 rtl">
+                    <div class="col-12 col-lg-8">
+                        <div class="gt-details-image">
+                            <img src="{{ article.image.url }}" alt="img">
+                        </div>
+                        <div class="gt-news-details-content">
+                            <ul class="gt-date-list d-flex mb-3">
+                                <li>
+                                    <i class="fa fa-user"></i>
+                                    نویسنده :
+                                    <a href="{% url 'article_by_author' username=article.author.username %}">
+                                        {% if article.author.get_full_name %}
+                                            {{ article.author.get_full_name }}
+                                        {% else %}
+                                            {{ article.author }}
+                                        {% endif %}
+                                    </a>
+                                </li>
+                                <li class="mx-4">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    {{ article.created_at }}
+                                </li>
+                                <li class="mx-3">
+                                    <i class="fa-solid fa-comments"></i>
+                                    {{ article.comments.published.count }} نظر
+                                </li>
+                            </ul>
+                            <h3>{{ article.title }}</h3>
+                            <p>
+                                {{ article.body | linebreaks }}
+                            </p>
+                            <div class="row gt-tag-share-wrap mt-4 mb-5">
+                                {% if article.category %}
+                                    <div class="col-lg-8 col-12">
+                                        <div class="tagcloud">
+                                            <span>دسته بندی ها:</span>
+                                            {% for cat in article.category.published %}
+                                                <a href="{% url 'article_by_category' cat.slug %}">{{ cat.title }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {#                                <div class="col-lg-4 col-12 mt-3 mt-lg-0 text-lg-end">#}
+                                {#                                    <div class="social-share">#}
+                                {#                                        <a href="#"><i class="fab fa-twitter"></i></a>#}
+                                {#                                        <a href="#"><i class="fa-brands fa-youtube"></i></a>#}
+                                {#                                        <a href="#"><i class="fab fa-linkedin-in"></i></a>#}
+                                {#                                        <a href="#"><i class="fab fa-facebook-f"></i></a>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                            </div>
+                            <div class="gt-comment-form-wrap mt-5">
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-success">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                                <h4 class="mb-2">نظر خود را بگذارید : </h4>
+                                <form id="contact-form" method="POST" novalidate> {% csrf_token %}
+                                    {% if request.user.is_authenticated %}
+                                        <div class="row g-4">
+                                            <div class="col-lg-12">
+                                                <div class="form-clt">
+                                                    <span>{{ comment_form.body.label_tag }}</span>
+                                                    {{ comment_form.body }}
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <button type="submit" class="gt-theme-btn">
+                                                    ارسال کامنت ها
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-success">
+                                            برای ارسال کامنت باید <a href="{% url 'login' %}"
+                                                                     class="text-danger">وارد</a> حساب خود شوید!
+                                        </div>
+                                    {% endif %}
+                                </form>
+                            </div>
+                            <div class="gt-comments-area">
+                                <div class="gt-comments-heading">
+                                    <h3>کامنت ها :</h3>
+                                </div>
+                                {% if article.comments.published %}
+                                    {% for comment in article.comments.published %}
+                                        <div class="gt-blog-single-comment d-flex gap-4 pt-4 pb-4">
+                                            <div class="image">
+                                                {% if article.author.image %}
+                                                    {% thumbnail article.author.image '96x96' crop='center' as im %}
+                                                        <img src="{{ im.url }}" alt="img">
+                                                    {% endthumbnail %}
+                                                {% else %}
+                                                    <img src="{% static 'shared/img/unknown-user.png' %}" alt="img"
+                                                         width="96" height="96">
+                                                {% endif %}
+                                            </div>
+                                            <div class="gt-content">
+                                                <div class="head d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                                                    <div class="con">
+                                                        <h5>
+                                                            {% if comment.author.get_full_name %}
+                                                                {{ comment.author.username }}
+                                                            {% else %}
+                                                                {{ comment.author.username }}
+                                                            {% endif %}
+                                                        </h5>
+                                                        <span>{{ comment.create_at }}</span>
+                                                    </div>
+                                                </div>
+                                                <p class="mt-2 mb-4">
+                                                    {{ comment.body }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="alert alert-warning">هنوز هیچ کامنتی برای این پست منتشر نشده.</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% render_partial 'blog_module.views.article_sidebar' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

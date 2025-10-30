@@ -1,0 +1,71 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}تکمیل اطلاعات{% endblock %}
+{% block banner_title %}{% endblock %}
+{% block banner_body %}{% endblock %}
+{% block content %}
+    <!-- Checkout Section Start -->
+    <section class="checkout-section section-padding fix rtl">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="{% url 'checkout' %}" method="post"> {% csrf_token %}
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <div class="checkout-single-wrapper">
+                                    <div class="checkout-single boxshado-single">
+                                        <h4>ثبت اطلاعات تکمیلی</h4>
+                                        <div class="checkout-single-form">
+                                            <div class="row g-4">
+                                                <div class="col-lg-6">
+                                                    <div class="input-single">
+                                                        {{ checkout_form.first_name.label_tag }}
+                                                        {{ checkout_form.first_name }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="input-single">
+                                                        {{ checkout_form.last_name.label_tag }}
+                                                        {{ checkout_form.last_name }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="input-single">
+                                                        {{ checkout_form.email.label_tag }}
+                                                        {{ checkout_form.email }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 rtl">
+                                                    <div class="input-single">
+                                                        {{ checkout_form.phone.label_tag }}
+                                                        {{ checkout_form.phone }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="input-single">
+                                                        {{ checkout_form.address.label_tag }}
+                                                        {{ checkout_form.address }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkout-single checkout-single-bg">
+                                        <div class="mt-4">
+                                            <div class="demo-button">
+                                                <button type="submit" class="gt-theme-btn-purchase">
+                                                    پرداخت
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
