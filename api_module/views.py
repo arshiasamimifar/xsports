@@ -1,39 +1,45 @@
-from .serializers import ArticleSerializer, ProductSerializer
-from blog_module.permissions import IsAuthorOrSuperUserOrReadOnly
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.authentication import TokenAuthentication
+from .serializers import ArticleSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from blog_module.models import Article
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.pagination import PageNumberPagination
-from shop_module.permissions import IsSuperUserOrReadOnly
-from shop_module.models import Product
+from rest_framework import status
 
 
-class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 1000
-    page_size_query_param = 'page_size'
-    max_page_size = 10000
+class ArticleListApiView(APIView):
+    def get(self, request):
+        article = Article.objects.published()
+        serializer = ArticleSerializer(article, many=True)
+        return Response(serializer.data)
 
 
-class ArticleApiView(ModelViewSet):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated, IsAuthorOrSuperUserOrReadOnly]
-    pagination_class = LargeResultsSetPagination
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return Article.objects.all()
-        return Article.objects.filter(status='PB')
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+class ArticleDetailApiView(APIView):
+    def get(self, request, pk):
+        article = Article.objects.get(pk=pk)
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
 
 
-class ProductApiView(ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated, IsSuperUserOrReadOnly]
+class ArticleCreateApiView(APIView):
+    def post(self, request):
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(author=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ArticleDeleteApiView(APIView):
+    def post(self, request, pk):
+        article = Article.objects.get(pk=pk)
+        article.delete()
+        return Response(status.HTTP_202_ACCEPTED)
+
+
+class ArticleUpdateApiView(APIView):
+    def post(self, request, pk):
+        article = Article.objects.get(pk=pk)
+        serializer = ArticleSerializer(article, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status.HTTP_200_OK)
+        return Response(status.HTTP_400_BAD_REQUEST)
