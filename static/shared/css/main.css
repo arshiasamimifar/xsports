@@ -13703,3 +13703,10 @@ span {
 } */
 
 /*my styles*/
+.gt-about-image {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 15px;
+    object-fit: cover;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
