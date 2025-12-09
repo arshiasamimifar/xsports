@@ -1,5 +1,7 @@
 {% extends 'shared/base.html' %}
 {% load static %}
+{% block header_hero %}<img src="{% static 'shared/img/home-2/hero/hero-01.png' %}" alt="img">{% endblock %}
+{% block header_background %}{% static 'shared/img/home-2/hero/hero-bg.png' %}{% endblock %}
 {% load thumbnail %}
 {% load custom_filters %}
 {% block title %}فروشگاه | {{ product.title }}{% endblock %}
